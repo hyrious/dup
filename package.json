@@ -1,0 +1,41 @@
+{
+  "name": "@hyrious/dup",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Find duplicates in your lockfile",
+  "author": "hyrious <hyrious@outlook.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyrious/dup.git"
+  },
+  "keywords": [
+    "dedupe",
+    "deduplicate",
+    "lockfile",
+    "package-lock.json",
+    "yarn.lock",
+    "pnpm-lock.yaml"
+  ],
+  "main": "src/dup.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "esbuild-dev build.ts",
+    "prepublishOnly": "nr build"
+  },
+  "devDependencies": {
+    "@antfu/ni": "^0.21.12",
+    "@hyrious/dts": "^0.2.0",
+    "@hyrious/esbuild-dev": "^0.10.5",
+    "@types/node": "^20.10.4",
+    "esbuild": "^0.19.9"
+  },
+  "publishConfig": {
+    "bin": "dist/dup-cli.js",
+    "main": "dist/dup.js",
+    "types": "dist/dup.d.ts"
+  }
+}
