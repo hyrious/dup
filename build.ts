@@ -2,19 +2,23 @@ import * as fs from "node:fs";
 import * as esbuild from "esbuild";
 import * as dts from "@hyrious/dts";
 
+fs.rmSync("dist", { recursive: true, force: true });
+
 await esbuild
 	.build({
 		entryPoints: ["src/dup.ts", "src/dup-cli.ts"],
 		bundle: true,
 		platform: "node",
 		format: "esm",
-		splitting: true,
 		outdir: "dist",
 		logLevel: "info",
 		plugins: [
 			{
-				name: "shebang",
-				setup({ onLoad }) {
+				name: "cli",
+				setup({ onResolve, onLoad }) {
+					onResolve({ filter: /^\.\/.+\.js$/ }, (args) => {
+						return { path: args.path, external: true };
+					});
 					onLoad({ filter: /\-cli\.ts$/ }, (args) => {
 						const code = fs.readFileSync(args.path, "utf8");
 						return {
