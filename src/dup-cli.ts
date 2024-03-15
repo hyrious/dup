@@ -9,6 +9,7 @@ if (process.argv[2] === "-h" || process.argv[2] === "--help") {
 	console.log("  Usage");
 	console.log("    $ dup [dir]");
 	console.log();
+	process.exit(0);
 }
 
 if (process.argv[2] === "-v") {
