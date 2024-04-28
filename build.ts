@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
-import * as esbuild from "esbuild";
 import * as dts from "@hyrious/dts";
+import * as esbuild from "esbuild";
 
 fs.rmSync("dist", { recursive: true, force: true });
 
