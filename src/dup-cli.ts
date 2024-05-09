@@ -1,3 +1,4 @@
+import * as cp from "node:child_process";
 import * as fs from "node:fs";
 import { dup } from "./dup.js";
 
@@ -25,9 +26,21 @@ if (dir && fs.statSync(dir, { throwIfNoEntry: false })?.isDirectory())
 	process.chdir(dir);
 
 let found = false;
-for (const lockfile of ["pnpm-lock.yaml", "package-lock.json", "yarn.lock"])
+const lockfiles = [
+	"pnpm-lock.yaml",
+	"package-lock.json",
+	"yarn.lock",
+	"bun.lockb",
+];
+for (const lockfile of lockfiles)
 	if (fs.existsSync(lockfile)) {
-		const duplicates = dup(fs.readFileSync(lockfile, "utf8"));
+		let raw: string;
+		if (lockfile === "bun.lockb") {
+			raw = cp.execFileSync("bun", [lockfile], { encoding: "utf-8" });
+		} else {
+			raw = fs.readFileSync(lockfile, "utf8");
+		}
+		const duplicates = dup(raw);
 
 		for (const name in duplicates)
 			for (const version of duplicates[name]) console.log(`${name}@${version}`);

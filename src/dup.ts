@@ -117,8 +117,11 @@ function dup_string(a: string) {
 				let ver: string | undefined;
 				const version = lines[index + 1];
 				if (version.startsWith("  version")) {
-					if (version[9] === " ") ver = version.slice(10); // Yarn 1
-					else if (version[9] === ":") ver = version.slice(11); // Yarn 2+
+					if (version[9] === " ") {
+						ver = version.slice(10); // Yarn 1
+					} else if (version[9] === ":") {
+						ver = version.slice(11); // Yarn 2+
+					}
 					if (ver && ver[0] === '"') ver = ver.slice(1, -1);
 					if (ver) collected.push([pkg, ver]);
 				}

@@ -18,10 +18,7 @@
 		"pnpm-lock.yaml"
 	],
 	"main": "src/dup.ts",
-	"files": [
-		"dist",
-		"src"
-	],
+	"files": ["dist", "src"],
 	"scripts": {
 		"build": "esbuild-dev build.ts",
 		"prepublishOnly": "nr build",
