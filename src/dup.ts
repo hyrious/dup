@@ -35,20 +35,22 @@ function dup_object(a: Lockfile) {
 }
 
 function dup_packages(p: { readonly [key: string]: unknown }) {
+	const isNPM = !!p[""];
 	const collected: [pkg: string, ver: string][] = [];
 	for (const key in p) {
 		let pkg: string;
 		let ver: string;
 
 		// NPM: "node_modules/path/to/{package-name}": { "version": {version} }
-		if (key.startsWith("node_modules/")) {
+		if (isNPM && key) {
 			const parts = key.split("/").slice(-2);
 			if (parts[0][0] === "@") {
 				pkg = parts.join("/");
 			} else {
-				pkg = parts[1];
+				pkg = parts.pop()!;
 			}
 			ver = (p[key] as { version: string }).version;
+			if (ver == null) continue;
 			collected.push([pkg, ver]);
 		}
 
