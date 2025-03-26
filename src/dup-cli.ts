@@ -13,7 +13,7 @@ if (process.argv[2] === "-h" || process.argv[2] === "--help") {
 	process.exit(0);
 }
 
-if (process.argv[2] === "-v") {
+if (process.argv[2] === "-v" || process.argv[2] === "--version") {
 	const pkg = JSON.parse(
 		fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 	);
@@ -30,6 +30,7 @@ const lockfiles = [
 	"pnpm-lock.yaml",
 	"package-lock.json",
 	"yarn.lock",
+	"bun.lock",
 	"bun.lockb",
 ];
 for (const lockfile of lockfiles)

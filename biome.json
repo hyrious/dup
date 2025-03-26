@@ -14,6 +14,6 @@
 		}
 	},
 	"files": {
-		"ignore": ["dist", "package.json"]
+		"ignore": ["dist", "package.json", "src/jsonc.ts"]
 	}
 }

@@ -56,3 +56,15 @@ https://classic.yarnpkg.com/lang/en/docs/yarn-lock/
 {package-name}@{spec}:
   version "0.1.0"
 ```
+
+## Bun Lockfile v1
+
+```jsonc
+{
+  "lockfileVersion": 1,
+  "packages": {
+    "@humanfs/node/@humanwhocodes/retry": ["@humanwhocodes/retry@0.3.1", "..."] // must be one-liner
+//                ^ duplicate packages, represents flat folder structure
+  }
+}
+```

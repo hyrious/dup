@@ -1,3 +1,5 @@
+import { parse } from "./jsonc";
+
 /**
  * Find duplicates in the lockfile content.
  * @param lockfile The contents of pnpm-lock.yaml / package-lock.json, etc.
@@ -19,10 +21,11 @@ export function dup(lockfile: unknown): { [name: string]: string[] } {
 }
 
 interface Lockfile {
-	// NPM / PNPM
+	// NPM / PNPM / Bun
 	readonly lockfileVersion: string;
 	//  NPM: key is "" (self) or "node_modules/{pkg}..." (matching file system)
 	// PNPM: key is "/{pkg}@{version}(...)" (v6) or "{pkg}@{version}(...)" (v9)
+	//  Bun: key is "{pkg}", "{pkg}/{duplicated-pkg}" (version in value)
 	readonly packages: { readonly [key: string]: unknown };
 	// Yarn: its root keys are "name@spec, name@spec2", name "__metadata" is reserved
 	//       so PNPM v9 can be conflict with Yarn's lockfile
@@ -34,8 +37,17 @@ function dup_object(a: Lockfile) {
 	return dup_packages(a.lockfileVersion ? a.packages : a);
 }
 
+function dup_value_is_array(p: { readonly [key: string]: unknown }) {
+	for (const key in p) {
+		if (Array.isArray(p[key])) return true;
+		return false;
+	}
+	return false;
+}
+
 function dup_packages(p: { readonly [key: string]: unknown }) {
 	const isNPM = !!p[""];
+	const isBun = dup_value_is_array(p);
 	const collected: [pkg: string, ver: string][] = [];
 	for (const key in p) {
 		let pkg: string;
@@ -52,6 +64,19 @@ function dup_packages(p: { readonly [key: string]: unknown }) {
 			ver = (p[key] as { version: string }).version;
 			if (ver == null) continue;
 			collected.push([pkg, ver]);
+		}
+
+		// Bun: "{consumer}/{package-name}": ["{package-name}@{version}", ...]
+		else if (isBun && key) {
+			const parts = key.split("/").slice(-2);
+			if (parts[0][0] === "@") {
+				pkg = parts.join("/");
+			} else {
+				pkg = parts.pop()!;
+			}
+			const line = (p[key] as string[])[0];
+			const i = line.indexOf("@", 1);
+			collected.push([pkg, line.slice(i + 1)]);
 		}
 
 		// PNPM and Yarn: pkg@ver, pkg@spec, 'pkg@ver', "pkg@spec", /pkg@ver
@@ -78,7 +103,7 @@ function dup_packages(p: { readonly [key: string]: unknown }) {
 }
 
 function dup_string(a: string) {
-	if (a[0] === "{") return dup_object(JSON.parse(a));
+	if (a[0] === "{") return dup_object(parse(a));
 	const collected: [pkg: string, ver: string][] = [];
 	// PNPM
 	if (a.startsWith("lockfileVersion")) {
