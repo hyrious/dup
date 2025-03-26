@@ -19,24 +19,27 @@
 	],
 	"main": "src/dup.ts",
 	"files": [
-		"dist",
-		"src"
+		"src",
+		"dist"
 	],
 	"scripts": {
 		"build": "esbuild-dev build.ts",
-		"prepublishOnly": "nr build",
-		"lint": "biome check --apply ."
+		"prepublishOnly": "npm run build",
+		"lint": "biome check --write ."
 	},
 	"devDependencies": {
-		"@antfu/ni": "^0.21.12",
-		"@hyrious/dts": "^0.2.1",
-		"@hyrious/esbuild-dev": "^0.10.5",
-		"@types/node": "^20.12.7",
-		"esbuild": "^0.20.2"
+		"@biomejs/biome": "^1.9.4",
+		"@hyrious/dts": "^0.3.0",
+		"@hyrious/esbuild-dev": "^0.10.12",
+		"@types/node": "^20.17.27",
+		"esbuild": "^0.25.1"
 	},
 	"publishConfig": {
 		"bin": "dist/dup-cli.js",
 		"main": "dist/dup.js",
 		"types": "dist/dup.d.ts"
+	},
+	"pnpm": {
+		"neverBuiltDependencies": []
 	}
 }

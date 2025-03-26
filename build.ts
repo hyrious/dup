@@ -32,5 +32,5 @@ await esbuild
 	})
 	.catch(() => process.exit(1));
 
-const { elapsed } = await dts.build("src/dup.ts", "dist/dup.d.ts");
+const { elapsed } = await dts.build({ entryPoints: ["src/dup.ts"] });
 console.log("✅ DTS built in", (elapsed / 1000).toFixed(2), "s");
