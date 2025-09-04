@@ -28,11 +28,13 @@
 		"lint": "biome check --write ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@hyrious/dts": "^0.3.0",
-		"@hyrious/esbuild-dev": "^0.10.12",
-		"@types/node": "^20.17.27",
-		"esbuild": "^0.25.1"
+		"@biomejs/biome": "^2.2.2",
+		"@hyrious/dts": "^0.3.5",
+		"@hyrious/esbuild-dev": "^0.10.13",
+		"@hyrious/sort-package-json": "^0.1.2",
+		"@types/node": "^24.3.0",
+		"esbuild": "^0.25.9",
+		"semiver": "^1.1.0"
 	},
 	"publishConfig": {
 		"bin": "dist/dup-cli.js",
@@ -40,6 +42,9 @@
 		"types": "dist/dup.d.ts"
 	},
 	"pnpm": {
-		"neverBuiltDependencies": []
+		"configDependencies": {
+			"@pnpm/plugin-better-defaults": "0.2.1+sha512-3Fmur80S7+vmOKMmTdKS6JofiuvpUaBIdKEpgDyr9571FHo5Z4O2nrRUaSflxvwEakeYxIaFZ5MBaqAUnYHaeg==",
+			"@pnpm/plugin-trusted-deps": "0.1.0+sha512-OK05vSZpezQHcS7Y0T5A25QXDbBRtRq52s76eOkMgp9v8ifNrIR8pjIGqrUFUn0PwKLt2i+U1LPYB+RWi1xjaQ=="
+		}
 	}
 }

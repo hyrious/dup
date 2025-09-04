@@ -28,15 +28,22 @@ to find out why they are there in your dependencies tree.
   results in the CLI's dependencies (`yargs`, `commander`, etc.) being included
   in your dependencies tree and you actually does not need them.
 
-  You can add [overrides](https://pnpm.io/package_json#pnpmoverrides) to remove
-  them, for example:
+  You can add [overrides](https://pnpm.io/settings#overrides) to remove
+  them, for example (in pnpm-workspace.yaml):
+
+  ```yaml
+  overrides:
+    "critters>chalk": "npm:noop-package@1.0.0"
+    "html-minifier>commander": "npm:noop-package@1.0.0"
+  ```
+
+  Or in [package.json](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)
+  (for npm):
 
   ```json
-  "pnpm": {
-    "overrides": {
-      "critters>chalk": "npm:noop-package@1.0.0",
-      "html-minifier>commander": "npm:noop-package@1.0.0"
-    }
+  "overrides": {
+    "chalk": "npm:noop-package@1.0.0",
+    "commander": "npm:noop-package@1.0.0"
   }
   ```
 
@@ -47,6 +54,9 @@ to find out why they are there in your dependencies tree.
   - Raise an issue to the package's repo.
 
   I'm just encouraging you to use less dependencies to risk less.
+
+- Bonus: run `DUP_EVIL=1 dup` to add overrides to all duplicate dependencies.
+  It's _evil_ since things may break because of dependencies getting newer.
 
 ## License
 

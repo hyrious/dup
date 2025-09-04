@@ -1,5 +1,6 @@
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
+import { add_overrides } from "./add-overrides";
 import { dup } from "./dup.js";
 
 if (process.argv[2] === "-h" || process.argv[2] === "--help") {
@@ -46,7 +47,10 @@ for (const lockfile of lockfiles)
 		for (const name in duplicates)
 			for (const version of duplicates[name]) console.log(`${name}@${version}`);
 
+		if (process.env.DUP_EVIL) add_overrides(lockfile, duplicates);
+
 		found = true;
+
 		break;
 	}
 

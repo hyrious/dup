@@ -9,6 +9,7 @@ await esbuild
 		entryPoints: ["src/dup.ts", "src/dup-cli.ts"],
 		bundle: true,
 		platform: "node",
+		mainFields: ["module", "main"],
 		format: "esm",
 		outdir: "dist",
 		logLevel: "info",
