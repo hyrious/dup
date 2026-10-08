@@ -3,7 +3,9 @@ import * as fs from "node:fs";
 import { add_overrides } from "./add-overrides";
 import { dup } from "./dup.js";
 
-if (process.argv[2] === "-h" || process.argv[2] === "--help") {
+const arg = process.argv[2];
+
+if (arg === "-h" || arg === "--help") {
 	console.log();
 	console.log("  Description");
 	console.log("    Find duplicates in npm/pnpm/yarn lockfile");
@@ -14,7 +16,7 @@ if (process.argv[2] === "-h" || process.argv[2] === "--help") {
 	process.exit(0);
 }
 
-if (process.argv[2] === "-v" || process.argv[2] === "--version") {
+if (arg === "-v" || arg === "--version") {
 	const pkg = JSON.parse(
 		fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"),
 	);
@@ -22,7 +24,7 @@ if (process.argv[2] === "-v" || process.argv[2] === "--version") {
 	process.exit(0);
 }
 
-const dir = process.argv[2];
+const dir = arg;
 if (dir && fs.statSync(dir, { throwIfNoEntry: false })?.isDirectory())
 	process.chdir(dir);
 
@@ -33,6 +35,7 @@ const lockfiles = [
 	"yarn.lock",
 	"bun.lock",
 	"bun.lockb",
+	"upm.lock",
 ];
 for (const lockfile of lockfiles)
 	if (fs.existsSync(lockfile)) {

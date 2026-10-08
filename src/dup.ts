@@ -106,7 +106,7 @@ function dup_string(a: string) {
 	if (a[0] === "{") return dup_object(parse(a));
 	const collected: [pkg: string, ver: string][] = [];
 	// PNPM
-	if (a.startsWith("lockfileVersion")) {
+	if (a.startsWith("lockfileVersion") || a.startsWith("---")) {
 		const lines = a.split(/\r\n|\n/g);
 		let working = false;
 		for (let index = 0; index < lines.length; ++index) {
