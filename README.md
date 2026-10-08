@@ -33,11 +33,11 @@ to find out why they are there in your dependencies tree.
 
   ```yaml
   overrides:
-    "critters>chalk": "npm:noop-package@1.0.0"
-    "html-minifier>commander": "npm:noop-package@1.0.0"
+    "critters>chalk": "-"
+    "html-minifier>commander": "-"
   ```
 
-  Or in [package.json](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)
+  Or in [package.json](https://docs.npmjs.com/cli/v12/configuring-npm/package-json#overrides)
   (for npm):
 
   ```json

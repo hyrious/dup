@@ -79,7 +79,7 @@ function dup_packages(p: { readonly [key: string]: unknown }) {
 			collected.push([pkg, line.slice(i + 1)]);
 		}
 
-		// PNPM and Yarn: pkg@ver, pkg@spec, 'pkg@ver', "pkg@spec", /pkg@ver
+		// PNPM and Yarn and UPM: pkg@ver, pkg@spec, 'pkg@ver', "pkg@spec", /pkg@ver
 		else if (key) {
 			let line = key;
 			// Skip ' "
@@ -94,7 +94,7 @@ function dup_packages(p: { readonly [key: string]: unknown }) {
 			const match = line.match(/['",(:]/);
 			ver = match ? line.slice(0, match.index) : line;
 			// If the value has version, use that one (so current 'ver' is a spec)
-			const another = (p[line] as { version?: string }).version;
+			const another = (p[line] as { version?: string } | null)?.version;
 			if (another) ver = another;
 			collected.push([pkg, ver]);
 		}

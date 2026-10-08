@@ -22,4 +22,4 @@ jobs:
           version: 'latest'
           runtime: 'node@lts'
       - run: pnpm build
-      - run: pnpm publish --access public --no-git-checks
+      - run: pnpm stage publish

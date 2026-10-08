@@ -8,10 +8,10 @@ const arg = process.argv[2];
 if (arg === "-h" || arg === "--help") {
 	console.log();
 	console.log("  Description");
-	console.log("    Find duplicates in npm/pnpm/yarn lockfile");
+	console.log("    Find duplicates in npm/pnpm/yarn/upm lockfile");
 	console.log();
 	console.log("  Usage");
-	console.log("    $ dup [dir]");
+	console.log("    $ [DUP_EVIL=1] dup [dir]");
 	console.log();
 	process.exit(0);
 }
